@@ -1,11 +1,12 @@
 TRAIN:
-  ENABLE: True
+  ENABLE: False
   DATASET: kinetics
   BATCH_SIZE: 64
   EVAL_PERIOD: 10
   CHECKPOINT_PERIOD: 1
   AUTO_RESUME: True
 DATA:
+  PATH_TO_DATA_DIR: /research/lfcats/data/original/video_robustness/kinetics-dataset/k400
   NUM_FRAMES: 8
   SAMPLING_RATE: 8
   TRAIN_JITTER_SCALES: [256, 320]
@@ -49,7 +50,7 @@ TEST:
 DATA_LOADER:
   NUM_WORKERS: 8
   PIN_MEMORY: True
-NUM_GPUS: 8
+NUM_GPUS: 1
 NUM_SHARDS: 1
 RNG_SEED: 0
 OUTPUT_DIR: .

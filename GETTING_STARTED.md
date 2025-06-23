@@ -53,12 +53,20 @@ We have `TRAIN.ENABLE` and `TEST.ENABLE` to control whether training or testing 
 ```
 python tools/run_net.py \
   --cfg configs/Kinetics/C2D_8x8_R50.yaml \
-  DATA.PATH_TO_DATA_DIR path_to_your_dataset \
+  DATA.PATH_TO_DATA_DIR path_to_your_data_dir \
   TEST.CHECKPOINT_FILE_PATH path_to_your_checkpoint \
+  TRAIN.ENABLE False \
+
+python tools/run_net.py \
+  --cfg configs/Kinetics/C2D_8x8_R50.yaml \
+  DATA.PATH_TO_DATA_DIR /research/lfcats/data/original/video_robustness/kinetics-dataset/k400 \
+  TEST.CHECKPOINT_FILE_PATH /research/lfcats/projects/video_robustness/action_robustness/slowfast/checkpoints \
   TRAIN.ENABLE False \
 ```
 
 ### Run command
 ```
 python \tools\run_net.py --cfg path/to/<pretrained_model_config_file>.yaml
+
+python tools/run_net.py --cfg configs/Kinetics/C2D_8x8_R50.yaml
 ```
