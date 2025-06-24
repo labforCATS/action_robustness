@@ -59,5 +59,5 @@ python setup.py build develop
 
 Now the installation is finished, run the pipeline with:
 ```
-python tools/run_net.py --cfg configs/Kinetics/C2D_8x8_R50.yaml NUM_GPUS 1 TRAIN.BATCH_SIZE 8 SOLVER.BASE_LR 0.0125 DATA.PATH_TO_DATA_DIR /research/lfcats/data/original/video_robustness/kinetics-dataset/k400/test-converted
+python tools/run_net.py --cfg configs/Kinetics/C2D_8x8_R50.yaml NUM_GPUS 1 TRAIN.BATCH_SIZE 8 SOLVER.BASE_LR 0.0125 DATA.PATH_TO_DATA_DIR /research/lfcats/data/original/video_robustness/kinetics-dataset/k400
 ```

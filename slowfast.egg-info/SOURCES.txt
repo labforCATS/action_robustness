@@ -19,10 +19,3 @@ slowfast.egg-info/SOURCES.txt
 slowfast.egg-info/dependency_links.txt
 slowfast.egg-info/requires.txt
 slowfast.egg-info/top_level.txt
-tools/__init__.py
-tools/benchmark.py
-tools/demo_net.py
-tools/run_net.py
-tools/test_net.py
-tools/train_net.py
-tools/visualization.py
