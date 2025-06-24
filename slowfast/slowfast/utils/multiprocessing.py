@@ -56,7 +56,7 @@ def run(
     except Exception as e:
         raise e
 
-    torch.cuda.set_device(local_rank % torch.cuda.device_count())
+    torch.cuda.set_device(local_rank)
     ret = func(cfg)
     if output_queue is not None and local_rank == 0:
         output_queue.put(ret)

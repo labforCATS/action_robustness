@@ -1,12 +1,11 @@
 TRAIN:
-  ENABLE: False
+  ENABLE: True
   DATASET: kinetics
   BATCH_SIZE: 64
   EVAL_PERIOD: 10
   CHECKPOINT_PERIOD: 1
   AUTO_RESUME: True
 DATA:
-  PATH_TO_DATA_DIR: /research/lfcats/data/original/video_robustness/kinetics-dataset/k400
   NUM_FRAMES: 8
   SAMPLING_RATE: 8
   TRAIN_JITTER_SCALES: [256, 320]
@@ -44,7 +43,6 @@ MODEL:
   LOSS_FUNC: cross_entropy
   DROPOUT_RATE: 0.5
 TEST:
-  CHECKPOINT_FILE_PATH: /research/lfcats/projects/video_robustness/action_robustness/slowfast/checkpoints
   ENABLE: True
   DATASET: kinetics
   BATCH_SIZE: 64

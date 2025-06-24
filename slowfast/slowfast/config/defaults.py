@@ -131,7 +131,7 @@ _C.BN.GLOBAL_SYNC = False
 _C.TRAIN = CfgNode()
 
 # If True Train the model, else skip training.
-_C.TRAIN.ENABLE = False
+_C.TRAIN.ENABLE = True
 
 # Kill training if loss explodes over this ratio from the previous 5 measurements.
 # Only enforced if > 0.0

@@ -28,16 +28,13 @@ def build_model(cfg, gpu_id=None):
         gpu_id (Optional[int]): specify the gpu index to build model.
     """
     if torch.cuda.is_available():
-        print(f"DEBUG: cfg.NUM_GPUS = {cfg.NUM_GPUS}, torch.cuda.device_count() = {torch.cuda.device_count()}")
-        print(f"DEBUG: cfg.NUM_GPUS = {cfg.NUM_GPUS}, torch.cuda.device_count() = {torch.cuda.device_count()}")
-        print(f"cfg.NUM_GPUS = {cfg.NUM_GPUS}, torch.cuda.device_count() = {torch.cuda.device_count()}"); # assert (
-        cfg.NUM_GPUS <= torch.cuda.device_count()
-        # ), "Cannot use more GPU devices than available"
+        assert (
+            cfg.NUM_GPUS <= torch.cuda.device_count()
+        ), "Cannot use more GPU devices than available"
     else:
-        print(f"DEBUG: cfg.NUM_GPUS = {cfg.NUM_GPUS}, torch.cuda.device_count() = {torch.cuda.device_count()}")
-        print(f"cfg.NUM_GPUS = {cfg.NUM_GPUS}, torch.cuda.device_count() = {torch.cuda.device_count()}"); # assert (
-        cfg.NUM_GPUS == 0
-        #), "Cuda is not available. Please set `NUM_GPUS: 0 for running on CPUs."
+        assert (
+            cfg.NUM_GPUS == 0
+        ), "Cuda is not available. Please set `NUM_GPUS: 0 for running on CPUs."
 
     # Construct the model
     name = cfg.MODEL.MODEL_NAME

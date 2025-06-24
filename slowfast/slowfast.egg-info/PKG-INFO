@@ -18,8 +18,8 @@ Requires-Dist: detectron2
 Requires-Dist: opencv-python
 Requires-Dist: pandas
 Requires-Dist: torchvision>=0.4.2
-Requires-Dist: Pillow
-Requires-Dist: scikit-learn
+Requires-Dist: PIL
+Requires-Dist: sklearn
 Requires-Dist: tensorboard
 Requires-Dist: fairscale
 Provides-Extra: tensorboard-video-visualization

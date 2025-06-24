@@ -59,7 +59,7 @@ python tools/run_net.py \
 
 python tools/run_net.py \
   --cfg configs/Kinetics/C2D_8x8_R50.yaml \
-  DATA.PATH_TO_DATA_DIR /research/lfcats/data/original/video_robustness/kinetics-dataset/k400 \
+  DATA.PATH_TO_DATA_DIR /research/lfcats/data/original/video_robustness/kinetics-dataset/k400/test-converted \
   TEST.CHECKPOINT_FILE_PATH /research/lfcats/projects/video_robustness/action_robustness/slowfast/checkpoints \
   TRAIN.ENABLE False \
 ```
