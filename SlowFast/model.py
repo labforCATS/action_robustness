@@ -173,35 +173,42 @@ transform =  ApplyTransformToKey(
 # The duration of the input clip is also specific to the model.
 clip_duration = (num_frames * sampling_rate)/frames_per_second
 
-# Load the example video
-video_path = "archery.mp4"
-
 # Select the duration of the clip to load by specifying the start and end duration
 # The start_sec should correspond to where the action occurs in the video
-start_sec = 0
-end_sec = start_sec + clip_duration
+def predict_video(video_path: str, start_sec: float = 0.0):
+    """
+    Predicts the action class of a video clip.
 
-# Initialize an EncodedVideo helper class
-video = EncodedVideo.from_path(video_path)
+    Args:
+        video_path (str): Path to the video file.
+        start_sec (float): Start time in seconds for the clip.
 
-# Load the desired clip
-video_data = video.get_clip(start_sec=start_sec, end_sec=end_sec)
+    Returns:
+        List[str]: Predicted action class names.
+    """
+    end_sec = start_sec + clip_duration
 
-# Apply a transform to normalize the video input
-video_data = transform(video_data)
+    # Initialize an EncodedVideo helper class
+    video = EncodedVideo.from_path(video_path)
 
-# Move the inputs to the desired device
-inputs = video_data["video"]
-inputs = [i.to(device)[None, ...] for i in inputs]
+    # Load the desired clip
+    video_data = video.get_clip(start_sec=start_sec, end_sec=end_sec)
 
-# Pass the input clip through the model
-preds = model(inputs)
+    # Apply a transform to normalize the video input
+    video_data = transform(video_data)
 
-# Get the predicted classes
-post_act = torch.nn.Softmax(dim=1)
-preds = post_act(preds)
-pred_classes = preds.topk(k=5).indices
+    # Move the inputs to the desired device
+    inputs = video_data["video"]
+    inputs = [i.to(device)[None, ...] for i in inputs]
 
-# Map the predicted classes to the label names
-pred_class_names = [kinetics_id_to_classname[int(i)] for i in pred_classes[0]]
-print("Predicted labels: %s" % ", ".join(pred_class_names))
+    # Pass the input clip through the model
+    preds = model(inputs)
+
+    # Get the predicted classes
+    post_act = torch.nn.Softmax(dim=1)
+    preds = post_act(preds)
+    pred_classes = preds.topk(k=5).indices
+
+    # Map the predicted classes to the label names
+    pred_class_names = [kinetics_id_to_classname[int(i)] for i in pred_classes[0]]
+    return pred_class_names
