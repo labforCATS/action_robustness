@@ -8,7 +8,7 @@ INPUT_FILE  = "/research/lfcats/projects/video_robustness/action_robustness/Slow
 OUTPUT_FILE = "/research/lfcats/projects/video_robustness/action_robustness/SlowFast/outputs.csv"
 
 # Set to an integer to process only that many files, or to None to process all.
-N = 5
+N = 10
 
 def run_inference(video_dir: str, input_csv: str, output_csv: str, n: int = None):
     # 1) Read all the filenames
