@@ -113,7 +113,7 @@ model = torch.hub.load("facebookresearch/pytorchvideo", model=model_name, pretra
 model = model.to(device)
 model = model.eval()
 
-with open("kinetics_classnames.json", "r") as f:
+with open("utils/kinetics_classnames.json", "r") as f:
     kinetics_classnames = json.load(f)
 
 # Create an id to label name mapping

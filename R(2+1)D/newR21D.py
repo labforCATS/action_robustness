@@ -1,39 +1,38 @@
-def R2PLUS1D(VIDEOPATH):
-    import torch
-    import json
-    from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
-    from pytorchvideo.data.encoded_video import EncodedVideo
+import torch
+import decord
+import numpy as np
+from torchvision.models.video import r2plus1d_18, R2Plus1D_18_Weights
 
-    # Load pretrained R2Plus1D_18 from torchvision
-    weights = R2Plus1D_18_Weights.DEFAULT
-    model = r2plus1d_18(weights=weights)
-    model.eval()
+def load_frames_pytorch(video_path, num_frames=16, fps=30):
+    decord.bridge.set_bridge("torch")  # Return tensors instead of numpy arrays
+    vr = decord.VideoReader(video_path)
 
+    total_frames = len(vr)
+    if total_frames < num_frames:
+        raise ValueError(f"Only {total_frames} frames available; {num_frames} required.")
+
+    indices = np.linspace(0, total_frames - 1, num_frames).astype(int)
+    clip = vr.get_batch(indices)  # [T, H, W, C], dtype=torch.uint8
+
+    # Convert to [T, C, H, W] and float32
+    clip = clip.permute(0, 3, 1, 2).float() / 255.0
+    return clip  # [T, C, H, W]
+
+
+def R2PLUS1D(video_path):
+    weights = R2Plus1D_18_Weights.KINETICS400_V1
+    model = r2plus1d_18(weights=weights).eval()
     transform = weights.transforms()
+    class_names = weights.meta["categories"]
 
-    # Load video
-    video = EncodedVideo.from_path(VIDEOPATH, decoder="decord")
-    video_data = video.get_clip(start_sec=0, end_sec=16/30)
-    clip = video_data["video"] 
-
-    clip = clip.permute(1, 0, 2, 3)
+    clip = load_frames_pytorch(video_path)
     clip = transform(clip)
     clip = clip.unsqueeze(0)
 
-    # Inference
     with torch.no_grad():
         out = model(clip)
+        probs = torch.nn.functional.softmax(out, dim=1)
 
-    # Top-5 predictions
-    top5 = torch.topk(out, 5).indices.squeeze().tolist()
-
-    # Load class names
-    with open("kinetics_classnames.json") as f:
-        class_to_id = json.load(f)
-
-    # Translate ID to label
-    id_to_class = {str(v): k for k, v in class_to_id.items()}
-
-    # print top 5 predictions
-    label_names = [id_to_class[str(i)] for i in top5]
-    return ", ".join(label_names)
+    top5 = torch.topk(probs, 5).indices.squeeze().tolist()
+    results= [class_names[i] for i in top5]
+    return ", ".join(results)
